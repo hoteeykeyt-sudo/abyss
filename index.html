@@ -2,19 +2,153 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Abyss - Доминация</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abyss Client</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #1a1a1a; color: white; margin: 0; }
-        .card { text-align: center; background: #2a2a2a; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        .btn { display: inline-block; padding: 15px 30px; font-size: 18px; font-weight: bold; color: white; background: #2e7d32; border-radius: 8px; text-decoration: none; transition: background 0.2s; }
-        .btn:hover { background: #388e3c; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0d0e12;
+            color: #ffffff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Красивый задний фон с градиентным свечением */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(108, 92, 231, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+        }
+
+        /* Карточка по центру */
+        .card {
+            position: relative;
+            z-index: 1;
+            background: rgba(22, 24, 31, 0.8);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 48px;
+            text-align: center;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Иконка / Изображение */
+        .icon-box {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 24px auto;
+            box-shadow: 0 10px 25px rgba(108, 92, 231, 0.4);
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        p {
+            color: #8a8d9b;
+            font-size: 15px;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        /* Неоновая кнопка запуска */
+        .launch-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 18px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            background: linear-gradient(135deg, #6c5ce7, #4834d4);
+            border: none;
+            border-radius: 14px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.35);
+        }
+
+        .launch-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(108, 92, 231, 0.55);
+            background: linear-gradient(135deg, #7d6df0, #533ee8);
+        }
+
+        .launch-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Статус клиента */
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 24px;
+            font-size: 13px;
+            color: #00b894;
+            background: rgba(0, 184, 148, 0.1);
+            padding: 6px 14px;
+            border-radius: 20px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #00b894;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #00b894;
+        }
     </style>
 </head>
 <body>
+
     <div class="card">
-        <h1>Abyss DLC</h1>
-        <p>Скачать клиент ниже:</p>
-        <a href="https://t.me/abyssdlc" target="_blank" class="btn">🚀 Скачать</a>
+        <div class="icon-box">⚡</div>
+        <h1>Abyss Client</h1>
+        <p>Скачать чит ниже</p>
+        
+       <a href="https://t.me/abyssdlc" class="launch-btn">
+    <span>🚀 Запустить клиент</span>
+</a>
+        </a>
+
+        <div class="status">
+            <span class="status-dot"></span>
+            Сервер онлайн
+        </div>
     </div>
+
 </body>
 </html>

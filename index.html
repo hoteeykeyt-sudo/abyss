@@ -24,21 +24,21 @@
             color: #ffffff;
         }
 
-        /* Ночной майнкрафт-пейзаж на фоне */
+        /* Чистый ночной пейзаж Minecraft без персонажей */
         .bg-image {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('https://images.wallpapersden.com/image/download/night-minecraft-landscape_bGtrZW2UmZqaraWkpJRmZmdlrWJnZWU.jpg') center/cover no-repeat;
-            filter: brightness(0.55) contrast(1.1);
+            background: url('https://images.wallpapersden.com/image/download/minecraft-night-lake_a2xtbW6UmZqaraWkpJRmZmdlrWJnZWU.jpg') center/cover no-repeat;
+            filter: brightness(0.5) contrast(1.1);
             transform: scale(1.05);
             animation: moveBg 15s infinite alternate ease-in-out;
             z-index: -2;
         }
 
-        /* Тёмный градиент для глубины */
+        /* Градиентная виньетка */
         .overlay {
             position: absolute;
             top: 0;
@@ -49,7 +49,7 @@
             z-index: -1;
         }
 
-        /* Карточка с эффектом размытого стекла (Glassmorphism) */
+        /* Карточка с эффектом размытого стекла */
         .card {
             position: relative;
             z-index: 1;
@@ -66,7 +66,7 @@
             animation: fadeIn 1s ease-out;
         }
 
-        /* Иконка с фиолетовым неоном */
+        /* Иконка */
         .icon {
             width: 85px;
             height: 85px;
@@ -102,7 +102,7 @@
             line-height: 1.6;
         }
 
-        /* Неоновая кнопка «Скачать» */
+        /* Кнопка «СКАЧАТЬ» */
         .btn-download {
             display: flex;
             align-items: center;
@@ -133,7 +133,6 @@
             transform: translateY(0) scale(0.98);
         }
 
-        /* Плавные анимации */
         @keyframes moveBg {
             0% { transform: scale(1) translateY(0); }
             100% { transform: scale(1.08) translateY(-10px); }

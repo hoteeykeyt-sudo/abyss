@@ -16,12 +16,13 @@
 
         :root {
             --bg-color: #030712;
-            --primary-accent: #00f2fe;
-            --secondary-accent: #3b82f6;
-            --card-bg: rgba(6, 12, 26, 0.85);
-            --card-border: rgba(0, 242, 254, 0.25);
+            --primary: #00f2fe;
+            --secondary: #4facfe;
+            --accent-blue: #2563eb;
+            --card-surface: rgba(7, 15, 33, 0.82);
+            --border-glow: rgba(0, 242, 254, 0.35);
             --text-main: #f8fafc;
-            --text-dim: #64748b;
+            --text-dim: #94a3b8;
         }
 
         body {
@@ -34,7 +35,30 @@
             position: relative;
         }
 
-        /* Неоновая синяя сетка на фоне */
+        /* Интерактивный свет курсора */
+        .cursor-light {
+            position: fixed;
+            width: 550px;
+            height: 550px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 242, 254, 0.14) 0%, rgba(37, 99, 235, 0.05) 50%, transparent 70%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 2;
+            transition: transform 0.08s ease-out;
+        }
+
+        /* Фон: холст для плавающих частиц */
+        #particlesCanvas {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Неоновая сетка с 3D-эффектом бесконечности */
         .grid-overlay {
             position: fixed;
             top: -50%;
@@ -42,61 +66,60 @@
             width: 200%;
             height: 200%;
             background-image: 
-                linear-gradient(rgba(0, 242, 254, 0.12) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 242, 254, 0.12) 1px, transparent 1px);
-            background-size: 40px 40px;
-            mask-image: radial-gradient(circle at center, black 20%, transparent 70%);
-            -webkit-mask-image: radial-gradient(circle at center, black 20%, transparent 70%);
+                linear-gradient(rgba(0, 242, 254, 0.09) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 242, 254, 0.09) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(circle at center, black 25%, transparent 70%);
+            -webkit-mask-image: radial-gradient(circle at center, black 25%, transparent 70%);
             z-index: 1;
             pointer-events: none;
             animation: gridMove 20s linear infinite;
         }
 
         @keyframes gridMove {
-            0% { transform: translateY(0) rotate(0deg); }
-            100% { transform: translateY(40px) rotate(0deg); }
+            0% { transform: translateY(0); }
+            100% { transform: translateY(50px); }
         }
 
-        /* Синие фоновые сферы свечения */
+        /* Фоновые атмосферные сферы */
         .ambient-glow {
             position: fixed;
             border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.45;
+            filter: blur(140px);
+            opacity: 0.55;
             pointer-events: none;
             z-index: 0;
         }
 
         .glow-1 {
-            width: 500px;
-            height: 500px;
+            width: 600px;
+            height: 600px;
             background: radial-gradient(circle, #0284c7 0%, transparent 70%);
-            top: 20%;
-            left: 20%;
-            animation: pulseOrb 12s infinite alternate ease-in-out;
+            top: 15%;
+            left: 15%;
+            animation: floatOrb 14s infinite alternate ease-in-out;
         }
 
         .glow-2 {
-            width: 450px;
-            height: 450px;
-            background: radial-gradient(circle, #1d4ed8 0%, transparent 70%);
-            bottom: 15%;
-            right: 25%;
-            animation: pulseOrb 14s infinite alternate-reverse ease-in-out;
+            width: 520px;
+            height: 520px;
+            background: radial-gradient(circle, #3b82f6 0%, #1e1b4b 60%, transparent 75%);
+            bottom: 10%;
+            right: 15%;
+            animation: floatOrb 18s infinite alternate-reverse ease-in-out;
         }
 
-        /* Стартовый экран */
+        /* Экран приветствия */
         .intro-screen {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            inset: 0;
             z-index: 100;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: transparent;
+            background: rgba(3, 7, 18, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             transition: opacity 0.8s ease, visibility 0.8s ease;
         }
 
@@ -107,27 +130,42 @@
         }
 
         .btn-intro {
-            padding: 18px 42px;
+            position: relative;
+            padding: 22px 52px;
             font-family: 'Unbounded', sans-serif;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 800;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             color: #ffffff;
-            background: linear-gradient(135deg, #0284c7, #1d4ed8);
-            border: 1px solid rgba(0, 242, 254, 0.4);
-            border-radius: 16px;
-            box-shadow: 0 0 30px rgba(0, 242, 254, 0.3);
+            background: linear-gradient(135deg, #0284c7, #2563eb);
+            border: 1px solid rgba(0, 242, 254, 0.6);
+            border-radius: 20px;
+            box-shadow: 0 0 35px rgba(0, 242, 254, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+            animation: pulseBtn 3s infinite ease-in-out;
+        }
+
+        .btn-intro::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.3) 50%, transparent 60%);
+            transform: rotate(25deg);
+            animation: lightPass 3.5s infinite linear;
         }
 
         .btn-intro:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 45px rgba(0, 242, 254, 0.6);
-            border-color: rgba(0, 242, 254, 0.8);
+            transform: scale(1.08);
+            box-shadow: 0 0 60px rgba(0, 242, 254, 0.8);
+            border-color: #00f2fe;
         }
 
-        /* Оболочка содержимого */
+        /* Контейнер страницы */
         .page-wrapper {
             min-height: 100vh;
             display: flex;
@@ -138,90 +176,156 @@
             z-index: 10;
         }
 
-        /* Основной контейнер с карточками */
         .main-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 20px;
+            gap: 24px;
             width: 100%;
-            max-width: 960px;
-            opacity: 0;
-            transform: scale(0.9) translateY(20px);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            max-width: 980px;
             pointer-events: none;
         }
 
+        /* Каскадная анимация появления при открытии */
+        .main-container .side-card-left,
+        .main-container .card-wrapper,
+        .main-container .side-card-right {
+            opacity: 0;
+            transform: translateY(40px) scale(0.9);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
         .main-container.visible {
-            opacity: 1;
-            transform: scale(1) translateY(0);
             pointer-events: auto;
         }
 
-        /* Боковые окошки */
+        .main-container.visible .side-card-left {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            transition-delay: 0.1s;
+        }
+
+        .main-container.visible .card-wrapper {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            transition-delay: 0.25s;
+        }
+
+        .main-container.visible .side-card-right {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            transition-delay: 0.4s;
+        }
+
+        /* Боковые карточки с плавающей левитацией */
         .side-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 24px 20px;
-            text-align: center;
-            min-width: 160px;
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+            position: relative;
+            background: var(--card-surface);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid var(--border-glow);
+            border-radius: 24px;
+            padding: 30px 24px;
+            min-width: 195px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            gap: 15px;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .side-card .icon {
-            font-size: 20px;
+        .side-card-left {
+            animation: sideFloatLeft 6s infinite ease-in-out;
+        }
+
+        .side-card-right {
+            animation: sideFloatRight 6s infinite ease-in-out 1s;
+        }
+
+        .side-card:hover {
+            border-color: rgba(0, 242, 254, 0.75);
+            box-shadow: 0 25px 50px -10px rgba(0, 0, 0, 0.9), 0 0 30px rgba(0, 242, 254, 0.3);
+        }
+
+        .side-icon-box {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.12), rgba(37, 99, 235, 0.25));
+            border: 1px solid rgba(0, 242, 254, 0.35);
+            color: #38bdf8;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.15);
+            animation: pulseIcon 4s infinite ease-in-out;
         }
 
         .side-card .title {
             font-family: 'Unbounded', sans-serif;
             font-size: 11px;
-            font-weight: 700;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #38bdf8;
+            letter-spacing: 1.2px;
+            color: #e2e8f0;
         }
 
-        /* Главная центральная карточка */
+        /* Центральная карточка и 3D-наклон */
         .card-wrapper {
             position: relative;
             width: 100%;
-            max-width: 440px;
-            transition: transform 0.2s cubic-bezier(0.2, 0, 0.2, 1);
+            max-width: 460px;
             transform-style: preserve-3d;
+            transition: transform 0.15s cubic-bezier(0.2, 0, 0.2, 1);
+        }
+
+        /* Анимированная неоновая бегущая рамка вокруг карточки */
+        .card-glow-border {
+            position: relative;
+            border-radius: 34px;
+            padding: 1.5px;
+            background: conic-gradient(from var(--border-angle), transparent 25%, #00f2fe 50%, #2563eb 75%, transparent 100%);
+            animation: spinBorder 7s linear infinite;
+            box-shadow: 0 0 30px rgba(0, 242, 254, 0.15);
+        }
+
+        @property --border-angle {
+            syntax: '<angle>';
+            inherits: false;
+            initial-value: 0deg;
+        }
+
+        @keyframes spinBorder {
+            0% { --border-angle: 0deg; }
+            100% { --border-angle: 360deg; }
         }
 
         .card {
             position: relative;
-            background: var(--card-bg);
-            backdrop-filter: blur(32px);
-            -webkit-backdrop-filter: blur(32px);
-            border: 1px solid var(--card-border);
-            border-radius: 28px;
-            padding: 44px 36px;
+            background: var(--card-surface);
+            backdrop-filter: blur(36px);
+            -webkit-backdrop-filter: blur(36px);
+            border-radius: 33px;
+            padding: 48px 38px 40px;
             text-align: center;
             box-shadow: 
-                0 30px 60px -12px rgba(0, 0, 0, 0.95),
-                0 0 35px -10px rgba(0, 242, 254, 0.25),
-                inset 0 1px 1px 0 rgba(255, 255, 255, 0.08);
+                0 30px 70px -15px rgba(0, 0, 0, 0.95),
+                inset 0 1px 1px 0 rgba(255, 255, 255, 0.15);
             overflow: hidden;
+            animation: cardLevitate 5s infinite ease-in-out;
         }
 
         .card::before {
             content: '';
             position: absolute;
             top: 0;
-            left: 20%;
-            right: 20%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #00f2fe, transparent);
-            filter: blur(0.5px);
+            left: 15%;
+            right: 15%;
+            height: 1.5px;
+            background: linear-gradient(90deg, transparent, #00f2fe, #3b82f6, transparent);
+            filter: drop-shadow(0 0 8px #00f2fe);
         }
 
         /* Бейдж статуса */
@@ -229,16 +333,17 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            color: #38bdf8;
-            padding: 6px 14px;
-            border-radius: 100px;
+            background: rgba(34, 197, 94, 0.08);
+            border: 1px solid rgba(34, 197, 94, 0.35);
+            color: #4ade80;
+            padding: 8px 16px;
+            border-radius: 9999px;
             font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            margin-bottom: 24px;
+            margin-bottom: 26px;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.15);
         }
 
         .badge-dot {
@@ -246,33 +351,34 @@
             height: 7px;
             background: #22c55e;
             border-radius: 50%;
-            box-shadow: 0 0 8px #22c55e;
-            animation: blink 2.5s infinite;
+            box-shadow: 0 0 10px #22c55e;
+            animation: pulseDot 1.8s infinite;
         }
 
-        /* Заголовки */
+        /* Типографика с переливающимся сиянием */
         h1 {
             font-family: 'Unbounded', sans-serif;
-            font-size: 27px;
+            font-size: 29px;
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: -0.5px;
             line-height: 1.25;
-            margin-bottom: 12px;
-            background: linear-gradient(145deg, #ffffff 40%, #38bdf8 80%, #0284c7 100%);
+            margin-bottom: 14px;
+            background: linear-gradient(135deg, #ffffff 20%, #38bdf8 65%, #0284c7 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 30px rgba(0, 242, 254, 0.25);
         }
 
         .subtitle {
             color: var(--text-dim);
-            font-size: 14px;
+            font-size: 14.5px;
             font-weight: 400;
             line-height: 1.6;
-            margin-bottom: 32px;
+            margin-bottom: 34px;
         }
 
-        /* Кнопка скачивания */
+        /* Кнопка действия */
         .btn-download {
             position: relative;
             display: inline-flex;
@@ -280,17 +386,17 @@
             justify-content: center;
             gap: 12px;
             width: 100%;
-            padding: 17px 24px;
+            padding: 18px 24px;
             font-family: 'Unbounded', sans-serif;
             font-size: 14px;
             font-weight: 800;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
             color: #ffffff;
             text-decoration: none;
-            background: linear-gradient(135deg, #0284c7, #1d4ed8);
-            border-radius: 16px;
-            border: 1px solid rgba(0, 242, 254, 0.3);
-            box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.8), 0 0 15px rgba(2, 132, 199, 0.3);
+            background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%);
+            border-radius: 18px;
+            border: 1px solid rgba(0, 242, 254, 0.45);
+            box-shadow: 0 12px 30px -8px rgba(2, 132, 199, 0.6), 0 0 24px rgba(0, 242, 254, 0.35);
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             overflow: hidden;
             cursor: pointer;
@@ -303,19 +409,14 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(
-                90deg, 
-                transparent, 
-                rgba(255, 255, 255, 0.2), 
-                transparent
-            );
-            transition: 0.5s;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.6s ease;
         }
 
         .btn-download:hover {
-            transform: translateY(-2px) scale(1.01);
-            box-shadow: 0 12px 28px -6px rgba(2, 132, 199, 0.6), 0 0 25px rgba(0, 242, 254, 0.4);
-            border-color: rgba(0, 242, 254, 0.6);
+            transform: translateY(-3px) scale(1.02);
+            border-color: #00f2fe;
+            box-shadow: 0 16px 40px -6px rgba(2, 132, 199, 0.85), 0 0 36px rgba(0, 242, 254, 0.6);
         }
 
         .btn-download:hover::before {
@@ -324,125 +425,174 @@
 
         .btn-icon {
             display: flex;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .btn-download:hover .btn-icon {
-            transform: translateY(2px);
+            transform: translateY(3px) scale(1.1);
         }
 
-        .footer-note {
-            margin-top: 20px;
-            font-size: 11px;
-            color: #475569;
-            letter-spacing: 0.3px;
-        }
-
-        @keyframes pulseOrb {
+        /* Ключевые кадры анимаций */
+        @keyframes floatOrb {
             0% { transform: scale(1) translate(0, 0); }
-            50% { transform: scale(1.2) translate(40px, -20px); }
-            100% { transform: scale(0.9) translate(-20px, 30px); }
+            50% { transform: scale(1.15) translate(30px, -20px); }
+            100% { transform: scale(0.95) translate(-25px, 25px); }
         }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+        @keyframes cardLevitate {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-7px); }
+        }
+
+        @keyframes sideFloatLeft {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes sideFloatRight {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(6px); }
+        }
+
+        @keyframes pulseIcon {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 4px rgba(0, 242, 254, 0.3)); }
+            50% { transform: scale(1.06); filter: drop-shadow(0 0 12px rgba(0, 242, 254, 0.65)); }
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.35); opacity: 0.4; }
+        }
+
+        @keyframes pulseBtn {
+            0%, 100% { box-shadow: 0 0 35px rgba(0, 242, 254, 0.35); }
+            50% { box-shadow: 0 0 50px rgba(0, 242, 254, 0.65); }
+        }
+
+        @keyframes lightPass {
+            0% { transform: translate(-100%, -100%) rotate(25deg); }
+            20%, 100% { transform: translate(100%, 100%) rotate(25deg); }
         }
 
         @media (max-width: 768px) {
             .main-container {
                 flex-direction: column;
+                gap: 16px;
             }
             .side-card {
                 width: 100%;
-                max-width: 440px;
+                max-width: 460px;
+                flex-direction: row;
+                justify-content: flex-start;
+                padding: 16px 20px;
+                gap: 16px;
+            }
+            .side-card .title {
+                font-size: 12px;
+            }
+            .card {
+                padding: 38px 24px 32px;
+            }
+            h1 {
+                font-size: 24px;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Фоновые визуальные эффекты -->
+    <!-- Фоновые эффекты и Canvas частиц -->
+    <canvas id="particlesCanvas"></canvas>
+    <div class="cursor-light" id="cursorLight"></div>
     <div class="ambient-glow glow-1"></div>
     <div class="ambient-glow glow-2"></div>
     <div class="grid-overlay"></div>
 
-    <!-- Экран с кнопкой "Ознакомиться" -->
+    <!-- Входной экран -->
     <div class="intro-screen" id="introScreen">
-        <button class="btn-intro" id="btnIntro" onclick="showMainContent()">ОЗНАКОМИТЬСЯ</button>
+        <button class="btn-intro" onclick="showMainContent()">ОЗНАКОМИТЬСЯ</button>
     </div>
 
-    <!-- Оболочка всей страницы -->
+    <!-- Основной интерфейс -->
     <div class="page-wrapper">
-        
-        <!-- Основной интерфейс -->
         <div class="main-container" id="mainContainer">
             
-            <!-- Левое окошко -->
-            <div class="side-card">
-                <span class="icon">⚡</span>
+            <!-- Левая карточка -->
+            <div class="side-card side-card-left">
+                <div class="side-icon-box">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                </div>
                 <span class="title">FAST INJECT</span>
             </div>
 
-            <!-- Центральная карточка -->
+            <!-- Центральный блок с вращающейся градиентной рамкой -->
             <div class="card-wrapper" id="cardContainer">
-                <div class="card">
-                    <div class="badge">
-                        <span class="badge-dot"></span>
-                        Status: Undetected
-                    </div>
-                    
-                    <h1>abyss dlc<br>доминация</h1>
-                    <p class="subtitle">Лучшие байпассы и обходы</p>
+                <div class="card-glow-border">
+                    <div class="card">
+                        <div class="badge">
+                            <span class="badge-dot"></span>
+                            Status: Undetected
+                        </div>
+                        
+                        <h1>abyss dlc<br>доминация</h1>
+                        <p class="subtitle">Лучшие байпассы и обходы</p>
 
-                    <a href="https://t.me/abyssdlc" target="_blank" class="btn-download">
-                        <span class="btn-icon">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                <polyline points="7 10 12 15 17 10"/>
-                                <line x1="12" y1="15" x2="12" y2="3"/>
-                            </svg>
-                        </span>
-                        <span>СКАЧАТЬ</span>
-                    </a>
-
-                    <div class="footer-note">
-                        Версия 2.4 • Автоматическое обновление
+                        <a href="https://t.me/abyssdlc" target="_blank" class="btn-download">
+                            <span class="btn-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="7 10 12 15 17 10"/>
+                                    <line x1="12" y1="15" x2="12" y2="3"/>
+                                </svg>
+                            </span>
+                            <span>СКАЧАТЬ</span>
+                        </a>
                     </div>
                 </div>
             </div>
 
-            <!-- Правое окошко -->
-            <div class="side-card">
-                <span class="icon">🛡️</span>
+            <!-- Правая карточка -->
+            <div class="side-card side-card-right">
+                <div class="side-icon-box">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M9 12l2 2 4-4"/>
+                    </svg>
+                </div>
                 <span class="title">ANTICHEAT BYPASS</span>
             </div>
 
         </div>
-
     </div>
 
     <script>
-        function showMainContent() {
-            const introScreen = document.getElementById('introScreen');
-            const mainContainer = document.getElementById('mainContainer');
+        const introScreen = document.getElementById('introScreen');
+        const mainContainer = document.getElementById('mainContainer');
+        const card = document.getElementById('cardContainer');
+        const cursorLight = document.getElementById('cursorLight');
 
+        function showMainContent() {
             introScreen.classList.add('hidden');
             mainContainer.classList.add('visible');
         }
 
-        // 3D-наклон карточки за курсором
-        const card = document.getElementById('cardContainer');
-        const mainContainer = document.getElementById('mainContainer');
-
+        // Параллакс 3D и мягкий трекинг подсветки
         window.addEventListener('mousemove', (e) => {
+            if (cursorLight) {
+                cursorLight.style.left = `${e.clientX}px`;
+                cursorLight.style.top = `${e.clientY}px`;
+            }
+
             if (!mainContainer.classList.contains('visible')) return;
+
             const { innerWidth, innerHeight } = window;
             const x = (e.clientX - innerWidth / 2) / (innerWidth / 2);
             const y = (e.clientY - innerHeight / 2) / (innerHeight / 2);
 
             if (card) {
-                card.style.transform = `rotateY(${x * 6}deg) rotateX(${-y * 6}deg)`;
+                card.style.transform = `rotateY(${x * 8}deg) rotateX(${-y * 8}deg)`;
             }
         });
 
@@ -451,7 +601,65 @@
                 card.style.transform = 'rotateY(0deg) rotateX(0deg)';
             }
         });
+
+        // Генерация и физика дрейфующих частиц
+        const canvas = document.getElementById('particlesCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.6;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.speedY = (Math.random() - 0.5) * 0.4;
+                this.alpha = Math.random() * 0.5 + 0.2;
+                this.hue = Math.random() > 0.4 ? 188 : 215; // оттенок бирюзы и синего
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${this.hue}, 100%, 65%, ${this.alpha})`;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = `hsla(${this.hue}, 100%, 50%, 0.8)`;
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 45; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
     </script>
 </body>
 </html>
-```eof

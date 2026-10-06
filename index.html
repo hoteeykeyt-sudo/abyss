@@ -27,18 +27,14 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow-x: hidden;
             background-color: var(--bg-color);
             color: var(--text-main);
             perspective: 1200px;
-            padding: 24px;
+            overflow-x: hidden;
             position: relative;
         }
 
-        /* Неоновая синяя сетка на фоне (видима всегда) */
+        /* Неоновая синяя сетка на фоне */
         .grid-overlay {
             position: fixed;
             top: -50%;
@@ -61,7 +57,7 @@
             100% { transform: translateY(40px) rotate(0deg); }
         }
 
-        /* Синие фоновые сферы свечения (видимы всегда) */
+        /* Синие фоновые сферы свечения */
         .ambient-glow {
             position: fixed;
             border-radius: 50%;
@@ -89,7 +85,7 @@
             animation: pulseOrb 14s infinite alternate-reverse ease-in-out;
         }
 
-        /* Стартовый экран с прозрачным фоном, чтобы видать сетку */
+        /* Стартовый экран */
         .intro-screen {
             position: fixed;
             top: 0;
@@ -131,16 +127,27 @@
             border-color: rgba(0, 242, 254, 0.8);
         }
 
-        /* Основной контейнер с карточками */
-        .main-container {
+        /* Оболочка прокручиваемого содержимого */
+        .page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 60px 24px;
             position: relative;
             z-index: 10;
+        }
+
+        /* Основной контейнер с карточками */
+        .main-container {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 20px;
             width: 100%;
             max-width: 960px;
+            margin: auto 0;
             opacity: 0;
             transform: scale(0.9) translateY(20px);
             transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
@@ -267,7 +274,7 @@
             margin-bottom: 32px;
         }
 
-        /* Кнопка скачивания с бликом */
+        /* Кнопка скачивания */
         .btn-download {
             position: relative;
             display: inline-flex;
@@ -333,6 +340,28 @@
             letter-spacing: 0.3px;
         }
 
+        /* Нижний подвал сайта */
+        .bottom-footer {
+            margin-top: 120px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .bottom-footer.visible {
+            opacity: 1;
+        }
+
+        .bottom-footer p {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: rgba(0, 242, 254, 0.7);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-shadow: 0 0 12px rgba(0, 242, 254, 0.3);
+        }
+
         @keyframes pulseOrb {
             0% { transform: scale(1) translate(0, 0); }
             50% { transform: scale(1.2) translate(40px, -20px); }
@@ -357,5 +386,105 @@
 </head>
 <body>
 
-    <!-- Неоновая сетка и атмосферные сферы свечения (показываются всегда) -->
+    <!-- Фоновые визуальные эффекты -->
     <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="grid-overlay"></div>
+
+    <!-- Экран с кнопкой "Ознакомиться" -->
+    <div class="intro-screen" id="introScreen">
+        <button class="btn-intro" id="btnIntro" onclick="showMainContent()">ОЗНАКОМИТЬСЯ</button>
+    </div>
+
+    <!-- Оболочка всей страницы -->
+    <div class="page-wrapper">
+        
+        <!-- Основной интерфейс -->
+        <div class="main-container" id="mainContainer">
+            
+            <!-- Левое окошко -->
+            <div class="side-card">
+                <span class="icon">⚡</span>
+                <span class="title">FAST INJECT</span>
+            </div>
+
+            <!-- Центральная карточка -->
+            <div class="card-wrapper" id="cardContainer">
+                <div class="card">
+                    <div class="badge">
+                        <span class="badge-dot"></span>
+                        Status: Undetected
+                    </div>
+                    
+                    <h1>abyss dlc<br>доминация</h1>
+                    <p class="subtitle">Лучшие байпассы и обходы</p>
+
+                    <a href="https://t.me/abyssdlc" target="_blank" class="btn-download">
+                        <span class="btn-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                        </span>
+                        <span>СКАЧАТЬ</span>
+                    </a>
+
+                    <div class="footer-note">
+                        Версия 2.4 • Автоматическое обновление
+                    </div>
+                </div>
+            </div>
+
+            <!-- Правое окошко -->
+            <div class="side-card">
+                <span class="icon">🛡️</span>
+                <span class="title">ANTICHEAT BYPASS</span>
+            </div>
+
+        </div>
+
+        <!-- Подвал в самом низу страницы -->
+        <footer class="bottom-footer" id="bottomFooter">
+            <p>Лютый Kidep И мы не релизнемся</p>
+        </footer>
+
+    </div>
+
+    <script>
+        function showMainContent() {
+            const introScreen = document.getElementById('introScreen');
+            const mainContainer = document.getElementById('mainContainer');
+            const bottomFooter = document.getElementById('bottomFooter');
+
+            introScreen.classList.add('hidden');
+            mainContainer.classList.add('visible');
+            bottomFooter.classList.add('visible');
+        }
+
+        // 3D-наклон карточки за курсором
+        const card = document.getElementById('cardContainer');
+        const mainContainer = document.getElementById('mainContainer');
+
+        window.addEventListener('mousemove', (e) => {
+            if (!mainContainer.classList.contains('visible')) return;
+            const { innerWidth, innerHeight } = window;
+            const x = (e.clientX - innerWidth / 2) / (innerWidth / 2);
+            const y = (e.clientY - innerHeight / 2) / (innerHeight / 2);
+
+            if (card) {
+                card.style.transform = `rotateY(${x * 6}deg) rotateX(${-y * 6}deg)`;
+            }
+        });
+
+        window.addEventListener('mouseleave', () => {
+            if (card) {
+                card.style.transform = 'rotateY(0deg) rotateX(0deg)';
+            }
+        });
+    </script>
+</body>
+</html>
+```eof
+
+Добавлен прокручиваемый блок и в самый низ помещена надпись **«Лютый Kidep И мы не релизнемся»** с неоновой синей подсветкой. Она отображается при прокрутке вниз после нажатия «Ознакомиться».

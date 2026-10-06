@@ -15,12 +15,12 @@
         }
 
         :root {
-            --bg-color: #030205;
-            --primary-accent: #6b21a8;
-            --secondary-accent: #3730a3;
-            --card-bg: rgba(7, 5, 14, 0.85);
-            --card-border: rgba(107, 33, 168, 0.2);
-            --text-main: #f1f5f9;
+            --bg-color: #030712;
+            --primary-accent: #00f2fe;
+            --secondary-accent: #3b82f6;
+            --card-bg: rgba(6, 12, 26, 0.85);
+            --card-border: rgba(0, 242, 254, 0.25);
+            --text-main: #f8fafc;
             --text-dim: #64748b;
         }
 
@@ -37,63 +37,148 @@
             padding: 24px;
         }
 
-        /* Динамические фоновые световые сферы (затемнены) */
+        /* Неоновая синяя сетка на фоне */
+        .grid-overlay {
+            position: fixed;
+            inset: -50%;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                linear-gradient(rgba(0, 242, 254, 0.12) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 242, 254, 0.12) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at center, black 20%, transparent 70%);
+            -webkit-mask-image: radial-gradient(circle at center, black 20%, transparent 70%);
+            z-index: 1;
+            pointer-events: none;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(40px) rotate(0deg); }
+        }
+
+        /* Синие фоновые сферы свечения */
         .ambient-glow {
             position: fixed;
             border-radius: 50%;
             filter: blur(120px);
-            opacity: 0.35;
+            opacity: 0.45;
             pointer-events: none;
             z-index: 0;
-            will-change: transform;
         }
 
         .glow-1 {
-            width: 520px;
-            height: 520px;
-            background: radial-gradient(circle, #581c87 0%, transparent 70%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #0284c7 0%, transparent 70%);
             top: 20%;
             left: 20%;
             animation: pulseOrb 12s infinite alternate ease-in-out;
         }
 
         .glow-2 {
-            width: 480px;
-            height: 480px;
-            background: radial-gradient(circle, #312e81 0%, transparent 70%);
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, #1d4ed8 0%, transparent 70%);
             bottom: 15%;
             right: 25%;
             animation: pulseOrb 14s infinite alternate-reverse ease-in-out;
         }
 
-        .glow-3 {
-            width: 320px;
-            height: 320px;
-            background: radial-gradient(circle, #831843 0%, transparent 70%);
-            top: 60%;
-            left: 60%;
-            animation: pulseOrb 10s infinite alternate ease-in-out;
-            opacity: 0.15;
-        }
-
-        /* Кибернетическая сетка */
-        .grid-overlay {
+        /* Стартовый экран с кнопкой «Ознакомиться» */
+        .intro-screen {
             position: fixed;
             inset: 0;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-            background-size: 50px 50px;
-            mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
-            -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
-            z-index: 1;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--bg-color);
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .intro-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
             pointer-events: none;
         }
 
-        /* Карточка с эффектом стекла */
-        .card-wrapper {
+        .btn-intro {
+            padding: 18px 42px;
+            font-family: 'Unbounded', sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #ffffff;
+            background: linear-gradient(135deg, #0284c7, #1d4ed8);
+            border: 1px solid rgba(0, 242, 254, 0.4);
+            border-radius: 16px;
+            box-shadow: 0 0 30px rgba(0, 242, 254, 0.3);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-intro:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 45px rgba(0, 242, 254, 0.6);
+            border-color: rgba(0, 242, 254, 0.8);
+        }
+
+        /* Основной контейнер с карточками */
+        .main-container {
             position: relative;
             z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 960px;
+            opacity: 0;
+            transform: scale(0.9) translateY(20px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .main-container.visible {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        /* Боковые окошки */
+        .side-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 24px 20px;
+            text-align: center;
+            min-width: 160px;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .side-card .icon {
+            font-size: 20px;
+        }
+
+        .side-card .title {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #38bdf8;
+        }
+
+        /* Главная центральная карточка */
+        .card-wrapper {
+            position: relative;
             width: 100%;
             max-width: 440px;
             transition: transform 0.2s cubic-bezier(0.2, 0, 0.2, 1);
@@ -110,245 +195,4 @@
             padding: 44px 36px;
             text-align: center;
             box-shadow: 
-                0 30px 60px -12px rgba(0, 0, 0, 0.95),
-                0 0 30px -10px rgba(88, 28, 135, 0.2),
-                inset 0 1px 1px 0 rgba(255, 255, 255, 0.05);
-            overflow: hidden;
-        }
-
-        /* Верхняя грань */
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 20%;
-            right: 20%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #a855f7, transparent);
-            filter: blur(0.5px);
-            opacity: 0.5;
-        }
-
-        /* Бейдж статуса */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            color: #a855f7;
-            padding: 6px 14px;
-            border-radius: 100px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 24px;
-        }
-
-        .badge-dot {
-            width: 7px;
-            height: 7px;
-            background: #16a34a;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #16a34a;
-            animation: blink 2.5s infinite;
-        }
-
-        /* Типографика */
-        h1 {
-            font-family: 'Unbounded', sans-serif;
-            font-size: 27px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -0.5px;
-            line-height: 1.25;
-            margin-bottom: 12px;
-            background: linear-gradient(145deg, #ffffff 40%, #a855f7 80%, #6366f1 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .subtitle {
-            color: var(--text-dim);
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 1.6;
-            margin-bottom: 28px;
-        }
-
-        /* Список возможностей (чипы) */
-        .features-grid {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 32px;
-        }
-
-        .feature-tag {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 7px 12px;
-            font-size: 12px;
-            font-weight: 500;
-            color: #94a3b8;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* Темная кнопка */
-        .btn-download {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            width: 100%;
-            padding: 17px 24px;
-            font-family: 'Unbounded', sans-serif;
-            font-size: 14px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            color: #ffffff;
-            text-decoration: none;
-            background: linear-gradient(135deg, #581c87, #3730a3);
-            border-radius: 16px;
-            border: 1px solid rgba(168, 85, 247, 0.3);
-            box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.8);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        /* Бегущий блик при наведении */
-        .btn-download::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg, 
-                transparent, 
-                rgba(255, 255, 255, 0.15), 
-                transparent
-            );
-            transition: 0.5s;
-        }
-
-        .btn-download:hover {
-            transform: translateY(-2px) scale(1.01);
-            box-shadow: 0 12px 28px -6px rgba(88, 28, 135, 0.6);
-            background: linear-gradient(135deg, #6b21a8, #4338ca);
-            border-color: rgba(168, 85, 247, 0.5);
-        }
-
-        .btn-download:hover::before {
-            left: 100%;
-        }
-
-        .btn-download:active {
-            transform: translateY(1px) scale(0.99);
-        }
-
-        .btn-icon {
-            display: flex;
-            transition: transform 0.3s ease;
-        }
-
-        .btn-download:hover .btn-icon {
-            transform: translateY(2px);
-        }
-
-        /* Нижний статус */
-        .footer-note {
-            margin-top: 18px;
-            font-size: 11px;
-            color: #475569;
-            letter-spacing: 0.3px;
-        }
-
-        /* Анимации */
-        @keyframes pulseOrb {
-            0% { transform: scale(1) translate(0, 0); }
-            50% { transform: scale(1.2) translate(40px, -20px); }
-            100% { transform: scale(0.9) translate(-20px, 30px); }
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        @media (max-width: 480px) {
-            .card {
-                padding: 36px 24px;
-            }
-            h1 {
-                font-size: 23px;
-            }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="ambient-glow glow-1"></div>
-    <div class="ambient-glow glow-2"></div>
-    <div class="ambient-glow glow-3"></div>
-    <div class="grid-overlay"></div>
-
-    <div class="card-wrapper" id="cardContainer">
-        <div class="card">
-            <div class="badge">
-                <span class="badge-dot"></span>
-                Status: Undetected
-            </div>
-            
-            <h1>abyss dlc<br>доминация</h1>
-            <p class="subtitle">Лучшие байпассы и обходы</p>
-            
-            <div class="features-grid">
-                <div class="feature-tag">⚡ Fast Inject</div>
-                <div class="feature-tag">🛡 Anti-Cheat Bypass</div>
-                <div class="feature-tag">🎮 24/7 Support</div>
-            </div>
-
-            <a href="https://t.me/abyssdlc" target="_blank" class="btn-download">
-                <span class="btn-icon">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                        <polyline points="7 10 12 15 17 10"/>
-                        <line x1="12" y1="15" x2="12" y2="3"/>
-                    </svg>
-                </span>
-                <span>СКАЧАТЬ</span>
-            </a>
-
-            <div class="footer-note">
-                Версия 2.4 • Автоматическое обновление
-            </div>
-        </div>
-    </div>
-
-    <!-- Интерактивный 3D-наклон карточки -->
-    <script>
-        const card = document.getElementById('cardContainer');
-
-        window.addEventListener('mousemove', (e) => {
-            const { innerWidth, innerHeight } = window;
-            const x = (e.clientX - innerWidth / 2) / (innerWidth / 2);
-            const y = (e.clientY - innerHeight / 2) / (innerHeight / 2);
-
-            card.style.transform = `rotateY(${x * 8}deg) rotateX(${-y * 8}deg)`;
-        });
-
-        window.addEventListener('mouseleave', () => {
-            card.style.transform = 'rotateY(0deg) rotateX(0deg)';
-        });
-    </script>
-</body>
-</html>
+                0 30px 60px -1

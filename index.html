@@ -148,4 +148,310 @@
             max-width: 960px;
             opacity: 0;
             transform: scale(0.9) translateY(20px);
-            transition: opacity
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+
+        .main-container.visible {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: auto;
+        }
+
+        /* Боковые окошки */
+        .side-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 24px 20px;
+            text-align: center;
+            min-width: 160px;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .side-card .icon {
+            font-size: 20px;
+        }
+
+        .side-card .title {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #38bdf8;
+        }
+
+        /* Главная центральная карточка */
+        .card-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 440px;
+            transition: transform 0.2s cubic-bezier(0.2, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .card {
+            position: relative;
+            background: var(--card-bg);
+            backdrop-filter: blur(32px);
+            -webkit-backdrop-filter: blur(32px);
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            padding: 44px 36px;
+            text-align: center;
+            box-shadow: 
+                0 30px 60px -12px rgba(0, 0, 0, 0.95),
+                0 0 35px -10px rgba(0, 242, 254, 0.25),
+                inset 0 1px 1px 0 rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 20%;
+            right: 20%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #00f2fe, transparent);
+            filter: blur(0.5px);
+        }
+
+        /* Бейдж статуса */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #38bdf8;
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 24px;
+        }
+
+        .badge-dot {
+            width: 7px;
+            height: 7px;
+            background: #22c55e;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #22c55e;
+            animation: blink 2.5s infinite;
+        }
+
+        /* Заголовки */
+        h1 {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 27px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            line-height: 1.25;
+            margin-bottom: 12px;
+            background: linear-gradient(145deg, #ffffff 40%, #38bdf8 80%, #0284c7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        /* Кнопка скачивания */
+        .btn-download {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 17px 24px;
+            font-family: 'Unbounded', sans-serif;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+            text-decoration: none;
+            background: linear-gradient(135deg, #0284c7, #1d4ed8);
+            border-radius: 16px;
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.8), 0 0 15px rgba(2, 132, 199, 0.3);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .btn-download::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 12px 28px -6px rgba(2, 132, 199, 0.6), 0 0 25px rgba(0, 242, 254, 0.4);
+            border-color: rgba(0, 242, 254, 0.6);
+        }
+
+        .btn-download:hover::before {
+            left: 100%;
+        }
+
+        .btn-icon {
+            display: flex;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-download:hover .btn-icon {
+            transform: translateY(2px);
+        }
+
+        .footer-note {
+            margin-top: 20px;
+            font-size: 11px;
+            color: #475569;
+            letter-spacing: 0.3px;
+        }
+
+        @keyframes pulseOrb {
+            0% { transform: scale(1) translate(0, 0); }
+            50% { transform: scale(1.2) translate(40px, -20px); }
+            100% { transform: scale(0.9) translate(-20px, 30px); }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .side-card {
+                width: 100%;
+                max-width: 440px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Фоновые визуальные эффекты -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="grid-overlay"></div>
+
+    <!-- Экран с кнопкой "Ознакомиться" -->
+    <div class="intro-screen" id="introScreen">
+        <button class="btn-intro" id="btnIntro" onclick="showMainContent()">ОЗНАКОМИТЬСЯ</button>
+    </div>
+
+    <!-- Оболочка всей страницы -->
+    <div class="page-wrapper">
+        
+        <!-- Основной интерфейс -->
+        <div class="main-container" id="mainContainer">
+            
+            <!-- Левое окошко -->
+            <div class="side-card">
+                <span class="icon">⚡</span>
+                <span class="title">FAST INJECT</span>
+            </div>
+
+            <!-- Центральная карточка -->
+            <div class="card-wrapper" id="cardContainer">
+                <div class="card">
+                    <div class="badge">
+                        <span class="badge-dot"></span>
+                        Status: Undetected
+                    </div>
+                    
+                    <h1>abyss dlc<br>доминация</h1>
+                    <p class="subtitle">Лучшие байпассы и обходы</p>
+
+                    <a href="https://t.me/abyssdlc" target="_blank" class="btn-download">
+                        <span class="btn-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                        </span>
+                        <span>СКАЧАТЬ</span>
+                    </a>
+
+                    <div class="footer-note">
+                        Версия 2.4 • Автоматическое обновление
+                    </div>
+                </div>
+            </div>
+
+            <!-- Правое окошко -->
+            <div class="side-card">
+                <span class="icon">🛡️</span>
+                <span class="title">ANTICHEAT BYPASS</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        function showMainContent() {
+            const introScreen = document.getElementById('introScreen');
+            const mainContainer = document.getElementById('mainContainer');
+
+            introScreen.classList.add('hidden');
+            mainContainer.classList.add('visible');
+        }
+
+        // 3D-наклон карточки за курсором
+        const card = document.getElementById('cardContainer');
+        const mainContainer = document.getElementById('mainContainer');
+
+        window.addEventListener('mousemove', (e) => {
+            if (!mainContainer.classList.contains('visible')) return;
+            const { innerWidth, innerHeight } = window;
+            const x = (e.clientX - innerWidth / 2) / (innerWidth / 2);
+            const y = (e.clientY - innerHeight / 2) / (innerHeight / 2);
+
+            if (card) {
+                card.style.transform = `rotateY(${x * 6}deg) rotateX(${-y * 6}deg)`;
+            }
+        });
+
+        window.addEventListener('mouseleave', () => {
+            if (card) {
+                card.style.transform = 'rotateY(0deg) rotateX(0deg)';
+            }
+        });
+    </script>
+</body>
+</html>
+```eof
